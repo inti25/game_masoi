@@ -94,7 +94,7 @@ export default class Menu extends PIXI.Container {
             // console.log(this.phone_number);
             // this.app.setStage("register");
             // this.removeInput();
-            let res = await new MaSoiServices().checkUserByPhone('0358366409');
+            let res = await new MaSoiServices().checkUserByPhone(this.phone_number);
             if (res.error) {
                 this.app.setStage("register");
             } else {
@@ -134,7 +134,6 @@ export default class Menu extends PIXI.Container {
         this.inputText.pivot.x = this.inputText.width/2
         this.inputText.pivot.y = this.inputText.height/2
         this.inputText.on('input', txt => {
-            console.log(txt);
             this.phone_number = txt;
         })
         obj.addChild(this.inputText);
