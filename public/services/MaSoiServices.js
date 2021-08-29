@@ -9,7 +9,7 @@ export default class MaSoiServices {
   async checkUserByPhone(phone_number) {
     setLoading(true);
     let data =  null;
-    await axios.post($this.baseUrl + '/users/getByPhone', {"phone_number":phone_number})
+    await axios.post(this.baseUrl + '/users/getByPhone', {"phone_number":phone_number})
     .then(response => {
       setLoading(false);
       console.log(response.data);
