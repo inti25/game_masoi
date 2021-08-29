@@ -3,7 +3,7 @@ import {setLoading} from "./../core/fabrics.js";
 export default class MaSoiServices {
 
   constructor() {
-    this.baseUrl = process.env.ENV == 'PROD' ? "https://game-masoi.herokuapp.com" : "http://localhost:3000";
+    this.baseUrl = "https://game-masoi.herokuapp.com";
   }
 
   async checkUserByPhone(phone_number) {
