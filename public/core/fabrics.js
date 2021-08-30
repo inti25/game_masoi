@@ -41,6 +41,17 @@ export function createBg(tex, options = undefined) {
 	return tiling;
 }
 
+export function createSpriteWithSize(tex, options = undefined) {
+	options = Object.assign({
+		width : Config.renderOptions.width, height: Config.renderOptions.height
+	},options);
+
+	let tiling = new PIXI.Sprite(tex);
+	tiling.width = options.width;
+	tiling.height = options.height;
+	return tiling;
+}
+
 export function createAnimatedShip(resources) {
 
 	let texLeft = resources['ship_turn'].texture;

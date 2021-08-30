@@ -2,10 +2,10 @@
 import Config from "./config.js";
 import Assets from "./assets.js";
 import Menu from "./stages/menu.js";
-import Game from "./stages/game.js";
 import ScrolledBackground from "./views/scrolledBackground.js";
 import Register from "./stages/register.js";
 import {setLoading} from "./core/fabrics.js";
+import ListGames from "./stages/listGames.js";
 
 const app = new PIXI.Application(Config.renderOptions);
 
@@ -36,8 +36,8 @@ let currentStage = undefined;
 function init() {
     stages = {
         menu : new Menu(app),
-        game : new Game(app),
-        register : new Register(app)
+        register : new Register(app),
+        listGame : new ListGames(app)
     };
 
     let size = {
@@ -48,7 +48,7 @@ function init() {
     app.background = new ScrolledBackground(app.loader.resources, size);
 
     app.stage.addChild(app.background);
-    app.setStage("menu");
+    app.setStage("listGame");
 
     app.ticker.add(update, this);
     setLoading(false);
@@ -62,7 +62,6 @@ function update(delta) {
     if(currentStage) {
         currentStage.update(delta);
     }
-
     app.background.update(delta);
 }
 
