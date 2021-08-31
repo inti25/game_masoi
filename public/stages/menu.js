@@ -50,12 +50,18 @@ export default class Menu extends PIXI.Container {
         super();
         this.app = app;
         this.entries = {};
-        this.backgroundY = 0;
+        this.inputText;
+        this.phone_number;
+    }
+
+    onStart() {
         this.createBackgrounds();
         this.createTexts();
         this.makeinputText(this);
-        this.inputText;
-        this.phone_number;
+    }
+
+    onDestroy() {
+
     }
 
     /**
@@ -98,7 +104,7 @@ export default class Menu extends PIXI.Container {
             if (res.error) {
                 this.app.setStage("register");
             } else {
-                this.app.setStage("game");
+                this.app.setStage("listGame");
             }
             console.log('check done', res);
         });

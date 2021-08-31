@@ -48,7 +48,7 @@ function init() {
     app.background = new ScrolledBackground(app.loader.resources, size);
 
     app.stage.addChild(app.background);
-    app.setStage("listGame");
+    app.setStage("menu");
 
     app.ticker.add(update, this);
     setLoading(false);
@@ -72,9 +72,11 @@ function update(delta) {
 app.setStage = function(name) {
     if(stages[name]){
         if(currentStage) {
+            currentStage.onDestroy();
             app.stage.removeChild(currentStage);
         }
         currentStage = stages[name];
         app.stage.addChild(currentStage);
+        currentStage.onStart();
     }
 }

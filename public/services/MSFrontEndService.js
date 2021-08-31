@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
 import { getFirestore, collection, getDocs, onSnapshot, query } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"
-export default class MSFontEndService {
+export default class MSFrontEndService {
 
   constructor() {
     const firebaseConfig = {

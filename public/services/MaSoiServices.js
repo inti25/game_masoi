@@ -4,6 +4,7 @@ export default class MaSoiServices {
 
   constructor() {
     this.baseUrl = "https://game-masoi.herokuapp.com";
+    // this.baseUrl = "http://localhost:3000";
   }
 
   async checkUserByPhone(phone_number) {

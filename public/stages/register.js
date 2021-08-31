@@ -40,7 +40,14 @@ export default class Register extends PIXI.Container {
     super();
     this.app = app;
     this.entries = {};
+  }
+
+  onStart() {
     this.initLayout();
+  }
+
+  onDestroy() {
+
   }
 
   initLayout() {

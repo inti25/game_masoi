@@ -2,7 +2,6 @@ import Config from "./../config.js";
 import {createText} from "./../core/fabrics.js";
 
 const centerX = Config.renderOptions.width * 0.5;
-const centerY = Config.renderOptions.height * 0.5;
 
 export default class NavBar extends PIXI.Container {
   constructor(text, backCallback, closeCallback) {
