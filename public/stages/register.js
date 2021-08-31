@@ -1,26 +1,29 @@
 import Config from "./../config.js";
-import {createInputText, createText, setLoading} from "./../core/fabrics.js";
+import {createInputText, createText, showPopupError} from "./../core/fabrics.js";
+import {getString, storeString} from "./../services/StoreManager.js";
+import MaSoiServices from "./../services/MaSoiServices.js";
+import NavBar from "../views/navBar.js";
 
 const centerX = Config.renderOptions.width * 0.5;
 const centerY = Config.renderOptions.height * 0.5;
 
 let menuTextEntries = {
   name : {
-    text : "Nhap ten",
+    text : "Họ tên",
     isInputText : true,
     position: {
-      x : centerX, y : 100
+      x : centerX, y : 150
     }
   },
   email : {
-    text : "Email",
+    text : "Địa chỉ email",
     isInputText : true,
     position : {
-      x : centerX , y : 200
+      x : centerX , y : 250
     }
   },
   play : {
-    text: "Play",
+    text: "đăng ký",
     isButton : true,
     position : {
       x: centerX, y : centerY * 1.5
@@ -30,7 +33,7 @@ let menuTextEntries = {
     }
   }
 };
-
+let appInstance;
 export default class Register extends PIXI.Container {
   /**
    * Create register stage
@@ -39,7 +42,12 @@ export default class Register extends PIXI.Container {
   constructor(app) {
     super();
     this.app = app;
+    appInstance = app;
     this.entries = {};
+    this.name = "";
+    this.email = "";
+    this.phone_number = getString("phone_number");
+    console.log(this.phone_number);
   }
 
   onStart() {
@@ -51,6 +59,7 @@ export default class Register extends PIXI.Container {
   }
 
   initLayout() {
+    this.addChild(new NavBar("Đăng ký", this.onBack, this.onClose));
     for(let key in menuTextEntries)
     {
       let text = menuTextEntries[key].text;
@@ -73,16 +82,33 @@ export default class Register extends PIXI.Container {
       this.entries[key] = textEntry;
     }
 
+    this.entries.name.on('input', txt => {
+      this.name = txt;
+    })
+    this.entries.email.on('input', txt => {
+      this.email = txt;
+    })
+
     //Swich stage to 'game' when click to Play button
-    this.entries.play.on("pointerdown", ()=>{
-      // this.app.setStage("game");
-      setLoading(true);
-      axios.post('http://localhost:3000/users', {"name":"hungnqtest", "phone_number":"0358366439", "email": "test"})
-      .then(response => {
-        setLoading(false);
-        console.log(response);
-      });
+    this.entries.play.on("pointerdown", async ()=>{
+      let res = await new MaSoiServices().createUser(this.phone_number, this.name, this.email);
+      if (res.error) {
+        showPopupError(res.error, function () {
+            console.log("close call back");
+        })
+        this.app.setStage("menu");
+      } else {
+        this.app.setStage("listGame");
+      }
     });
+  }
+
+  onBack() {
+    appInstance.setStage("menu");
+  }
+
+  onClose() {
+    appInstance.setStage("menu");
   }
   /**
    * Mark object as Button and add outline
@@ -90,7 +116,7 @@ export default class Register extends PIXI.Container {
    */
   makeButton(obj) {
     let size = obj.getBounds();
-    size.width *=2;
+    size.width *=1.2;
     let outline = new PIXI.Graphics();
     outline
     .lineStyle(2, 0xcccccc)

@@ -109,3 +109,27 @@ export function setLoading(isloading) {
 		$('#page-loader').hide();
 	}
 }
+
+export function showPopupError(message, closeCallback) {
+	let oldnode = document.getElementsByTagName('pop-up')
+	while (oldnode.length > 0) {
+		document.getElementsByTagName("body")[0].removeChild(oldnode[0]);
+	}
+	let node = document.createElement('pop-up');
+	node.innerHTML = `<div id="popup" class="popup">
+            <div class="popup_content">
+                <img src="assets/witch.png" class="popup-img"/>
+                <p class="popup-text">${message}</p>
+                <button id="popup-btn-close" class="popup-btn-close">CLOSE</button>
+            </div>
+        </div>`;
+	document.getElementsByTagName("body")[0].appendChild(node);
+	$(document).ready(function() {
+		$("#popup-btn-close").click(function(){
+			document.getElementsByTagName("body")[0].removeChild(node);
+			if (closeCallback) {
+				closeCallback();
+			}
+		});
+	});
+}

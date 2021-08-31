@@ -14,7 +14,7 @@ router.post('/getByPhone', async function(req, res, next) {
   var user = await userRepo.getByPhone(phone);
   console.log('user', user);
   if (user === null) {
-    res.send({"error" : "user not found!"});
+    res.send({"error" : "USER_NOT_FOUND"});
   } else {
     res.send(JSON.stringify(user));
   }

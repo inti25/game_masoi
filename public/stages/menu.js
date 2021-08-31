@@ -1,13 +1,14 @@
-import {createText} from  "./../core/fabrics.js";
+import {createText, showPopupError} from  "./../core/fabrics.js";
 import Config from "./../config.js";
 import MaSoiServices from "./../services/MaSoiServices.js";
+import {storeString} from "./../services/StoreManager.js";
 
 const centerX = Config.renderOptions.width * 0.5;
 const centerY = Config.renderOptions.height * 0.5;
 
 let menuTextEntries = {
     logo : {
-        text : "Masoi",
+        text : "Ma sói",
         position: {
             x : centerX, y : 100
         },
@@ -19,7 +20,7 @@ let menuTextEntries = {
         }
     },
     name : {
-        text : "phien ban loi",
+        text : "Phiên bản lỗi",
         position : {
             x : centerX , y : 150
         },
@@ -29,7 +30,7 @@ let menuTextEntries = {
         }
     },
     play : {
-        text: "Play",
+        text: "Chiến",
         isButton : true,
         position : {
             x: centerX, y : centerY * 1.5
@@ -50,7 +51,6 @@ export default class Menu extends PIXI.Container {
         super();
         this.app = app;
         this.entries = {};
-        this.inputText;
         this.phone_number;
     }
 
@@ -61,7 +61,7 @@ export default class Menu extends PIXI.Container {
     }
 
     onDestroy() {
-
+        this.removeInput();
     }
 
     /**
@@ -102,7 +102,14 @@ export default class Menu extends PIXI.Container {
             // this.removeInput();
             let res = await new MaSoiServices().checkUserByPhone(this.phone_number);
             if (res.error) {
-                this.app.setStage("register");
+                if (res.error == 'USER_NOT_FOUND') {
+                    storeString('phone_number', this.phone_number);
+                    this.app.setStage("register");
+                } else {
+                    showPopupError(res.error, function () {
+                        console.log("close call back");
+                    })
+                }
             } else {
                 this.app.setStage("listGame");
             }
@@ -134,7 +141,7 @@ export default class Menu extends PIXI.Container {
             }
         })
 
-        this.inputText.placeholder = 'So Dien Thoai'
+        this.inputText.placeholder = 'Số điện thoại'
         this.inputText.x = centerX
         this.inputText.y = 300
         this.inputText.pivot.x = this.inputText.width/2
@@ -152,7 +159,7 @@ export default class Menu extends PIXI.Container {
     makeButton(obj) {
 
         let size = obj.getBounds();
-        size.width *=2;
+        size.width *=1.2;
         let outline = new PIXI.Graphics();
         outline
             .lineStyle(2, 0xcccccc)
