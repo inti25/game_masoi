@@ -16,7 +16,7 @@ GameRepository.prototype.addPlayer = async function(gameId, player) {
   var game = GameCollector.doc(gameId).get();
   var g = new Game();
   g = (await game).data();
-  if (g.player.length >= (g.noWolf + g.noHuman)) {
+  if (g.player.length >= g.maxPlayer) {
     throw 'room full'
   }
   console.log('before filter', g.player , g.player.length);

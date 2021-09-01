@@ -2,26 +2,26 @@ import {createText, createSpriteWithSize} from "./../core/fabrics.js";
 
 export default class CardView extends PIXI.Container {
 
-  constructor(resources, title = undefined) {
+  constructor(resources, game = undefined) {
     super();
     this.resources = resources;
-    this.title = title;
+    this.title = game.name;
     this.interactive = true;
     this.buttonMode = true
     this.background = 'card_bg_1';
-    this.on("pointerup", this.pointerUp);
-    this.on("pointerdown", this.pointerDown);
-    this.needUpdate = true;
+    // this.on("pointerup", this.pointerUp);
+    // this.on("pointerdown", this.pointerDown);
+    this.initLayout();
   }
 
-  pointerDown() {
-    this.background = 'card_bg_2';
-    this.needUpdate = true;
-  }
-  pointerUp() {
-    this.background = 'card_bg_1';
-    this.needUpdate = true;
-  }
+  // pointerDown() {
+  //   this.background = 'card_bg_2';
+  //   this.needUpdate = true;
+  // }
+  // pointerUp() {
+  //   this.background = 'card_bg_1';
+  //   this.needUpdate = true;
+  // }
 
   initLayout() {
     while(this.children[0]) {
@@ -56,11 +56,6 @@ export default class CardView extends PIXI.Container {
     }
   }
 
-  update(delta) {
-    if (this.needUpdate === true) {
-      console.log('CardView update!!!!');
-      this.initLayout();
-      this.needUpdate = false;
-    }
-  }
+  // update(delta) {
+  // }
 }

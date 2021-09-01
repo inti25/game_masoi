@@ -111,6 +111,7 @@ export default class Menu extends PIXI.Container {
                     })
                 }
             } else {
+                storeString('phone_number', this.phone_number);
                 this.app.setStage("listGame");
             }
             console.log('check done', res);
@@ -169,20 +170,13 @@ export default class Menu extends PIXI.Container {
         obj.addChild(outline);
         obj.interactive = true;
         obj.buttonMode = true;
-
-        obj.on("pointerover", ()=>{
-            outline.tint = 0xff00000;
-        });
-
-        obj.on("pointerout", ()=>{
-            outline.tint = 0xffffff;
-        });
-
     }
 
     /**
      * Update stage
      * @param {number} delta
      */
-    update(delta) {}
+    update(delta) {
+
+    }
 }

@@ -9,21 +9,21 @@ const centerY = Config.renderOptions.height * 0.5;
 
 let menuTextEntries = {
   name : {
-    text : "Họ tên",
+    text : "Tên phòng",
     isInputText : true,
     position: {
       x : centerX, y : 150
     }
   },
   email : {
-    text : "Địa chỉ email",
+    text : "số người chơi",
     isInputText : true,
     position : {
       x : centerX , y : 250
     }
   },
   play : {
-    text: "đăng ký",
+    text: "Tạo phòng",
     isButton : true,
     position : {
       x: centerX, y : centerY * 1.5
@@ -34,7 +34,7 @@ let menuTextEntries = {
   }
 };
 let appInstance;
-export default class Register extends PIXI.Container {
+export default class CreateRoom extends PIXI.Container {
   /**
    * Create register stage
    * @param {PIXI.Application} app
@@ -45,8 +45,7 @@ export default class Register extends PIXI.Container {
     appInstance = app;
     this.entries = {};
     this.name = "";
-    this.email = "";
-    console.log(this.phone_number);
+    this.maxPlayer = "";
   }
 
   onStart() {
@@ -59,7 +58,7 @@ export default class Register extends PIXI.Container {
   }
 
   initLayout() {
-    this.addChild(new NavBar("Đăng ký", this.onBack, this.onClose));
+    this.addChild(new NavBar("Tạo phòng", this.onBack, this.onClose));
     for(let key in menuTextEntries)
     {
       let text = menuTextEntries[key].text;
@@ -86,17 +85,16 @@ export default class Register extends PIXI.Container {
       this.name = txt;
     })
     this.entries.email.on('input', txt => {
-      this.email = txt;
+      this.maxPlayer = txt;
     })
 
     //Swich stage to 'game' when click to Play button
     this.entries.play.on("pointerdown", async ()=>{
-      let res = await new MaSoiServices().createUser(this.phone_number, this.name, this.email);
+      let res = await new MaSoiServices().createRoom(this.name, this.maxPlayer, this.phone_number);
       if (res.error) {
         showPopupError(res.error, function () {
             console.log("close call back");
         })
-        this.app.setStage("menu");
       } else {
         this.app.setStage("listGame");
       }
@@ -104,11 +102,11 @@ export default class Register extends PIXI.Container {
   }
 
   onBack() {
-    appInstance.setStage("menu");
+    appInstance.setStage("listGame");
   }
 
   onClose() {
-    appInstance.setStage("menu");
+    appInstance.setStage("listGame");
   }
   /**
    * Mark object as Button and add outline

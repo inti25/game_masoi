@@ -6,6 +6,7 @@ import ScrolledBackground from "./views/scrolledBackground.js";
 import Register from "./stages/register.js";
 import {setLoading} from "./core/fabrics.js";
 import ListGames from "./stages/listGames.js";
+import CreateRoom from "./stages/createRoom.js";
 
 const app = new PIXI.Application(Config.renderOptions);
 
@@ -37,7 +38,8 @@ function init() {
     stages = {
         menu : new Menu(app),
         register : new Register(app),
-        listGame : new ListGames(app)
+        listGame : new ListGames(app),
+        createRoom : new CreateRoom(app)
     };
 
     let size = {

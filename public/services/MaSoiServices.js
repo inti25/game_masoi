@@ -22,6 +22,18 @@ export default class MaSoiServices {
     return user;
   }
 
+  async createRoom(name, maxPlayer, phone_number) {
+    let game = null;
+    setLoading(true);
+    await this.httpClient.post(this.baseUrl + '/games', {"name": name, "phone_number": phone_number, "maxPlayer": maxPlayer})
+    .then(response => {
+      setLoading(false);
+      console.log(response.data);
+      game = response.data;
+    });
+    return game;
+  }
+
   async checkUserByPhone(phone_number) {
     if (phone_number == undefined || phone_number == null || phone_number.length == 0) {
       return {"error": "số điện thoại không đúng định dạng"};

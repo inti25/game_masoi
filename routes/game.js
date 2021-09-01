@@ -12,10 +12,9 @@ router.post('/', async function(req, res, next) {
   var player = new Player();
   player.phone_number = phone_number;
   g.player.push(Object.assign({}, player));
-  g.noHuman = req.body.noHuman;
-  g.noWolf = req.body.noWolf;
+  g.maxPlayer = req.body.maxPlayer;
+  g.name = req.body.name;
   g.status = 0;
-  g.history = 0;
   await gameRepository.create(Object.assign({}, g));
   await userRepository.setGameId(phone_number, g.id);
   res.send('respond with a resource' + JSON.stringify(g));
